@@ -20,12 +20,10 @@ public class UserController {
       "admin@usersstore.cl",
       "Admin",
       Arrays.asList(
-        new Address(1, "Metropolitana", "Santiago", "Avenida Cuatro Poniente 2357", 9250000)
+        new Address(0, "Metropolitana", "Santiago", "Avenida Cuatro Poniente 2357", 9250000)
       ),
-      Arrays.asList(
-        new Role(0, "Admin")
-      ))
-    );
+      new Role(0, "Admin")
+    ));
     users.add(new User(
       1,
       "user1",
@@ -35,11 +33,8 @@ public class UserController {
       Arrays.asList(
         new Address(1, "Metropolitana", "Santiago", "Avenida Apoquindo 4500", 7550000)
       ),
-      Arrays.asList(
-        new Role(1, "Usuario"),
-        new Role(2, "Cliente nivel 1")
-      ))
-    );
+      new Role(1, "Usuario")
+    ));
     users.add(new User(
       2,
       "user2",
@@ -47,15 +42,12 @@ public class UserController {
       "user2@fictional.cl",
       "User 2",
       Arrays.asList(
-        new Address(1, "Metropolitana", "Santiago", "Avenida Kennedy 4500", 7550000),
-        new Address(2, "Metropolitana", "Santiago", "Calle Agustinas 1000", 8320000),
-        new Address(2, "Metropolitana", "Santiago", "Avenida Las Condes 20837", 7013029)
+        new Address(2, "Metropolitana", "Santiago", "Avenida Kennedy 4500", 7550000),
+        new Address(3, "Metropolitana", "Santiago", "Calle Agustinas 1000", 8320000),
+        new Address(4, "Metropolitana", "Santiago", "Avenida Las Condes 20837", 7013029)
       ),
-      Arrays.asList(
-        new Role(1, "Usuario"),
-        new Role(2, "Cliente nivel 3")
-      ))
-    );
+      new Role(1, "Usuario")
+    ));
   }
 
   @GetMapping("/users")
@@ -73,5 +65,23 @@ public class UserController {
 
     ErrorMessage errorMessage = new ErrorMessage(404, "No se encontró un usuario con el id: " + id);
     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+  }
+
+  @GetMapping("/users/roles/{id}")
+  public ResponseEntity<?> getUsersPerRole(@PathVariable int id) {
+    List<User> usersWithRole = new ArrayList<>();
+
+    for (User user : users) {
+      if (user.getRole().getId() == id) {
+        usersWithRole.add(user);
+      }
+    }
+
+    if (usersWithRole.size() > 0) {
+      return ResponseEntity.ok(usersWithRole);
+    } else {
+      ErrorMessage errorMessage = new ErrorMessage(404, "No se encontraron usuarios con el rol: " + id);
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
+    }
   }
 }

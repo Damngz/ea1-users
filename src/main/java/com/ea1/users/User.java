@@ -9,16 +9,16 @@ public class User {
   private String email;
   private String name;
   private List<Address> addresses;
-  private List<Role> roles;
+  private Role role;
 
-  public User(int id, String username, String password, String email, String name, List<Address> addresses, List<Role> roles) {
+  public User(int id, String username, String password, String email, String name, List<Address> addresses, Role role) {
     this.id = id;
     this.username = username;
     this.password = password;
     this.email = email;
     this.name = name;
     this.addresses = addresses;
-    this.roles = roles;
+    this.role = role;
   }
 
   // Getters y setters
@@ -46,7 +46,7 @@ public class User {
     return addresses;
   }
 
-  public List<Role> getRoles() {
-    return roles;
+  public Role getRole() {
+    return role;
   }
 }
